@@ -1,0 +1,10 @@
+.DS_Store
+.gradle
+.idea
+local.properties
+gradlew
+gradlew.bat
+gradle
+build
+*.iml
+*.keystore

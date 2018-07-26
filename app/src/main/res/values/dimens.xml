@@ -1,18 +1,14 @@
 <resources>
+
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="big_margin">32dp</dimen>
     <dimen name="regular_margin">16dp</dimen>
     <dimen name="small_margin">8dp</dimen>
-    <dimen name="tiny_margin">4dp</dimen>
 
     <dimen name="card_margin">2dp</dimen>
 
     <dimen name="grid_image_size">128dp</dimen>
 
-    <dimen name="model_row_height">48dp</dimen>
-
-    <dimen name="big_text">21sp</dimen>
     <dimen name="regular_text">18sp</dimen>
-    <dimen name="small_text">16sp</dimen>
-    <dimen name="tiny_text">14sp</dimen>
+
 </resources>

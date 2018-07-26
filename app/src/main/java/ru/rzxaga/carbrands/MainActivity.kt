@@ -1,20 +1,32 @@
 package ru.rzxaga.carbrands
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 const val COLUMN_WIDTH = 128 + 16 + 16 // image size + image margin + card margin
 
 class MainActivity : AppCompatActivity() {
 
+    private val brands = arrayOf(
+            Brand("audi", R.drawable.audi, R.string.audi),
+            Brand("bmw", R.drawable.bmw, R.string.bmw),
+            Brand("mercedes", R.drawable.mercedes, R.string.mercedes)
+    )
+
     private val gridAdapter = GridAdapter()
+
+    private var mediaPlayer = MediaPlayer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,15 +39,34 @@ class MainActivity : AppCompatActivity() {
         val viewManager = GridLayoutManager(this, spanCount)
 
         gridRecyclerView.apply {
-            // use this setting to improve performance if you know that changes
-            // in content do not change the layout size of the RecyclerView
             setHasFixedSize(true)
 
             layoutManager = viewManager
-
             adapter = gridAdapter
 
             addItemDecoration(GridSpacingItemDecoration(spanCount, COLUMN_WIDTH * displayMetrics.density))
+        }
+    }
+
+    fun playAudio(fileName: String) {
+        try {
+            if (mediaPlayer.isPlaying) {
+                mediaPlayer.stop()
+                mediaPlayer.reset()
+                mediaPlayer.release()
+            }
+
+            mediaPlayer = MediaPlayer()
+
+            val descriptor = assets.openFd(fileName)
+            mediaPlayer.setDataSource(descriptor.fileDescriptor, descriptor.startOffset, descriptor.length)
+            descriptor.close()
+
+            mediaPlayer.prepare()
+            mediaPlayer.setVolume(1f, 1f)
+            mediaPlayer.start()
+        } catch (e: Exception) {
+            Log.e("AUDIO", "Failed to play audio: " + e.message, e)
         }
     }
 
@@ -48,20 +79,30 @@ class MainActivity : AppCompatActivity() {
             return ViewHolder(view)
         }
 
-        // Replace the contents of a view (invoked by the layout manager)
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            val brand = brands[position]
+
             val imageView = holder.view.findViewById<ImageView>(R.id.image)
-//            imageView.setImageBitmap(bitmap)
+            imageView.setImageResource(brand.image)
 
-//            val detectedAge = holder.view.findViewById<TextView>(R.id.detectedAge)
-//            detectedAge.text = photo.detectedAgeString(this@ModelActivity)
+            val nameView = holder.view.findViewById<TextView>(R.id.name)
+            nameView.text = getString(brand.name)
 
-//            holder.view.setOnClickListener { showPhoto(position, bitmap, photo.agePrediction, photo.ageCorrection) }
+            holder.view.setOnClickListener {
+                playAudio(brand.audioFileName())
+            }
         }
 
-        // Return the size of your dataset (invoked by the layout manager)
-        override fun getItemCount() = 0
+        override fun getItemCount() = brands.size
 
+    }
+
+}
+
+data class Brand(val audio: String, val image: Int, val name: Int) {
+
+    fun audioFileName(): String {
+        return "$audio.mp4"
     }
 
 }

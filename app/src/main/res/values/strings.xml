@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Марки Автомобилей</string>
+
+    <string name="audi">Audi</string>
+    <string name="mercedes">Mercedes</string>
+    <string name="bmw">BMW</string>
+
 </resources>

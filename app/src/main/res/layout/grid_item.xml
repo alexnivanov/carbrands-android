@@ -30,9 +30,10 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
             android:layout_marginStart="@dimen/small_margin"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/regular_text" />
 
     </android.widget.LinearLayout>

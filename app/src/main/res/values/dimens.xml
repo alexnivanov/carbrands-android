@@ -9,6 +9,6 @@
 
     <dimen name="grid_image_size">128dp</dimen>
 
-    <dimen name="regular_text">18sp</dimen>
+    <dimen name="regular_text">16sp</dimen>
 
 </resources>
